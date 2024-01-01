@@ -39,7 +39,7 @@ fn calibrate(input: &str) -> u64 {
         .chars()
         .into_iter()
         .enumerate()
-        .map(|(i, c)| {
+        .flat_map(|(i, c)| {
             if c.is_digit(10) {
                 c.to_digit(10)
             } else {
@@ -56,9 +56,7 @@ fn calibrate(input: &str) -> u64 {
                         .next(),
                 }
             }
-        })
-        .filter(|x| x.is_some())
-        .map(|x| x.unwrap());
+        });
     let a = digits.next().unwrap_or(0);
     let b = digits.last().unwrap_or(a);
     (a * 10 + b).into()

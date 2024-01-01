@@ -1,6 +1,11 @@
+use std::collections::HashMap;
 use std::error::Error;
-use std::fs;
-use std::str::FromStr;
+use std::{error, fs};
+use std::iter::Map;
+use std::num::ParseIntError;
+use std::str::{FromStr, Lines};
+
+use crate::game::{ Game, GameTurn };
 
 pub fn run() -> () {
 
@@ -12,24 +17,26 @@ Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
 Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"
     );
 
-    #[derive(Debug, PartialEq)]
-    struct GameTurn{ red: u32, green: u32, blue: u32 }
+    fn parse_games(lines: Lines) -> Vec<Game> {
+        lines
+            .map(|l| l.trim())
+            .filter(|l| !l.is_empty())
+            .map(|l| Game::from_str(l).unwrap())
+            .collect()
+    };
 
-    impl FromStr for GameTurn {
-        type Err = Error;
 
-        fn from_str(s: &str) -> Result<Self, Self::Err> {
-            s.trim().split(',')
-                .map(|x| x.trim().split(' '));
-            todo!()
-        }
-    }
+    let sample_reference = GameTurn{ red: 12, green: 13, blue: 14 };
+    let sample_res: u32 = parse_games(sample.lines()).into_iter()
+        .filter(|g| g.check_game(&sample_reference))
+        .map(|g| g.id).sum();
+    println!("Sample 1: {:?}", sample_res);
 
-    // impl GameTurn {
-    //     fn from(input: &str) -> () {
-    //         input.trim().split(',').map(|x| x.trim());
-    //         ()
-    //     }
-    // }
+
+    let input = fs::read_to_string("day02/input.txt").unwrap();
+    let res: u32 = parse_games(input.lines()).into_iter()
+        .filter(|g| g.check_game(&sample_reference))
+        .map(|g| g.id).sum();
+    println!("Result 1: {:?}", res);
 
 }

@@ -9,12 +9,10 @@ pub fn calibrate(input: &str) -> u64 {
     let mut digits = input
         .chars()
         .into_iter()
-        .map(|d| d.to_digit(10))
-        .filter(|x| x.is_some())
-        .map(|x| x.unwrap().into());
+        .flat_map(|d| d.to_digit(10));
     let a = digits.next().unwrap_or(0);
     let b = digits.last().unwrap_or(a);
-    a * 10 + b
+    (a * 10 + b).into()
 }
 
 pub fn run() -> () {
