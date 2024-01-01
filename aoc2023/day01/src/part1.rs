@@ -6,17 +6,13 @@ use std::fs;
 /// assert_eq!(result, 26)
 /// ```
 pub fn calibrate(input: &str) -> u64 {
-    let mut digits = input
-        .chars()
-        .into_iter()
-        .flat_map(|d| d.to_digit(10));
+    let mut digits = input.chars().into_iter().flat_map(|d| d.to_digit(10));
     let a = digits.next().unwrap_or(0);
     let b = digits.last().unwrap_or(a);
     (a * 10 + b).into()
 }
 
 pub fn run() -> () {
-
     let sample = String::from(
         "1abc2
 pqr3stu8vwx

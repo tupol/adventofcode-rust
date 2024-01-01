@@ -1,6 +1,8 @@
-pub mod part1;
 mod game;
+mod part1;
+mod part2;
 
 fn main() {
     part1::run();
+    part2::run();
 }

@@ -17,23 +17,21 @@ Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
 Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green",
     );
 
-    let sample_reference = GameTurn {
-        red: 12,
-        green: 13,
-        blue: 14,
-    };
+    fn game_score(game: Game) -> u32 {
+        let t = game.max_turn();
+        t.red * t.green * t.blue
+    }
+
     let sample_res: u32 = parse_games(sample.lines())
         .into_iter()
-        .filter(|g| g.check_game(&sample_reference))
-        .map(|g| g.id)
+        .map(|g| game_score(g))
         .sum();
-    println!("Sample 1: {:?}", sample_res);
+    println!("Sample 2: {:?}", sample_res);
 
     let input = fs::read_to_string("day02/input.txt").unwrap();
     let res: u32 = parse_games(input.lines())
         .into_iter()
-        .filter(|g| g.check_game(&sample_reference))
-        .map(|g| g.id)
+        .map(|g| game_score(g))
         .sum();
-    println!("Result 1: {:?}", res);
+    println!("Result 2: {:?}", res);
 }
